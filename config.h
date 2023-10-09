@@ -5,15 +5,16 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=15" };
+static const char *fonts[]          = { "JetBrainsMonoNerdFont:size=15" };
 
-static const char dmenufont[]       = "monospace:size=15";
+static const char dmenufont[]       = "JetBrainsMonoNerdFont:size=15";
+
 static const char col_gray1[]       = "#666666";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#111111";
 static const char col_gray4[]       = "#111111";
-static const char col_cyan[]        = "#CC2222";
-
+static const char col_cyan[]        = "#2222EE";
+static const char col_sel_tab[] = "#444444";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray2 , col_gray1, col_gray2 },
@@ -23,14 +24,13 @@ static const char *colors[][3]      = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
@@ -95,7 +95,9 @@ static const Key keys[] = {
   { MODKEY,  			XK_n,	   spawn,          {.v = nvimcmd}},
     { MODKEY|ShiftMask,  			XK_f,	   spawn,          {.v = firefoxcmd}},
   { MODKEY|ShiftMask,  			XK_t,	   spawn,          {.v = torcmd}},
- 
+ 	{ MODKEY,                       XK_Left ,     moveView,           {.i = -1 } },
+ { MODKEY,                       XK_Right,      moveView,           {.i = 1 } },
+
   TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

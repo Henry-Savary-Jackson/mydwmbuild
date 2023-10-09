@@ -226,6 +226,7 @@ static void updatestatus(void);
 static void updatetitle(Client *c);
 static void updatewindowtype(Client *c);
 static void updatewmhints(Client *c);
+static void moveView(const Arg* arg);
 static void view(const Arg *arg);
 static Client *wintoclient(Window w);
 static Monitor *wintomon(Window w);
@@ -267,7 +268,7 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
-
+static unsigned int current_tag = 0;
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
@@ -2050,15 +2051,32 @@ updatewmhints(Client *c)
 	}
 }
 
+static void moveView(const Arg* arg)
+{
+
+  current_tag += arg->i;
+  current_tag = MAX(current_tag, 0);
+  current_tag = MIN(current_tag,8);
+  fprintf(stdout, "current_tag = %d" , current_tag);
+  Arg newArg= {.ui = 1 << current_tag};
+
+  view(&newArg);
+  
+
+}
+
+
 void
 view(const Arg *arg)
 {
 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
 		return;
-	selmon->seltags ^= 1; /* toggle sel tagset */
+	
+  selmon->seltags ^= 1; /* toggle sel tagset */
 	if (arg->ui & TAGMASK)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-	focus(NULL);
+	current_tag = selmon->seltags;
+  focus(NULL);
 	arrange(selmon);
 }
 
