@@ -7,10 +7,10 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "JetBrainsMonoNerdFont:size=15" };
 
-static const char dmenufont[]       = "JetBrainsMonoNerdFont:size=15";
+static const char dmenufont[]       = "JetBrainsMonoNerdFont:size=12";
 
 static const char col_gray1[]       = "#666666";
-static const char col_gray2[]       = "#444444";
+static const char col_gray2[]       = "#111111";
 static const char col_gray3[]       = "#111111";
 static const char col_gray4[]       = "#111111";
 static const char col_cyan[]        = "#2222EE";

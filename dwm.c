@@ -226,6 +226,7 @@ static void updatestatus(void);
 static void updatetitle(Client *c);
 static void updatewindowtype(Client *c);
 static void updatewmhints(Client *c);
+static void debug_print(const char* fmt,int message);
 static void moveView(const Arg* arg);
 static void view(const Arg *arg);
 static Client *wintoclient(Window w);
@@ -2052,17 +2053,41 @@ updatewmhints(Client *c)
 }
 
 static void moveView(const Arg* arg)
-{
+{ 
+  debug_print("before change current tag: %d\n", current_tag );
 
   current_tag += arg->i;
+  debug_print("current tag: %d\n", current_tag );
   current_tag = MAX(current_tag, 0);
   current_tag = MIN(current_tag,8);
-  fprintf(stdout, "current_tag = %d" , current_tag);
-  Arg newArg= {.ui = 1 << current_tag};
-
-  view(&newArg);
   
+  debug_print("sanitized current tag: %d\n", current_tag );
+  Arg newArg= {.ui = current_tag};
+  view(&newArg);  
 
+}
+
+static void debug_print(const char* fmt,  int message){
+  char* home_dir = getenv("HOME");
+  char* filename = "/hello.txt";
+  char* path = malloc(strlen(home_dir)+ strlen(filename) +2);
+  strcpy(path, home_dir);
+  strcpy(path + strlen(home_dir), filename);
+
+  FILE* file = fopen(path, 
+      "a");
+
+ if (file == NULL) {
+   printf("Error");
+   return ;
+ } 
+
+ fprintf(file,fmt, message);
+
+ fclose(file);
+ 
+ free(path);
+ return ; 
 }
 
 
