@@ -66,6 +66,8 @@ static const char *nvimcmd[] = {"st","nvim",NULL};
 static const char *rangercmd[] = {"st", "ranger" , NULL};
 static const char *firefoxcmd[] = {"firefox",NULL};
 static const char *torcmd[] = { "torbrowser-launcher" , NULL};
+
+static const char *vscodiumcmd[] = { "vscodium" , NULL};
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -95,7 +97,9 @@ static const Key keys[] = {
   { MODKEY,  			XK_n,	   spawn,          {.v = nvimcmd}},
     { MODKEY|ShiftMask,  			XK_f,	   spawn,          {.v = firefoxcmd}},
   { MODKEY|ShiftMask,  			XK_t,	   spawn,          {.v = torcmd}},
- 	{ MODKEY,                       XK_Left ,     moveView,           {.i = -1 } },
+ 	
+  { MODKEY|ShiftMask,  			XK_v,	   spawn,          {.v =vscodiumcmd }},
+  { MODKEY,                       XK_Left ,     moveView,           {.i = -1 } },
  { MODKEY,                       XK_Right,      moveView,           {.i = 1 } },
 
   TAGKEYS(                        XK_1,                      0)
