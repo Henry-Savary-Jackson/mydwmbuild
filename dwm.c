@@ -1952,8 +1952,8 @@ void updatewmhints(Client *c) {
 }
 // this takes a given integer in binary consisting of 1 bit leftshifted by a
 // certain number, and return how much it was left shifted
-static signed int getShiftView(signed int i) {
-  signed int output = 0;
+static int get_l_shift(int i) {
+  int output = 0;
   while ((1 << output) != i && output < 32) {
     output += 1;
   }
@@ -1963,9 +1963,14 @@ static signed int getShiftView(signed int i) {
 static void moveView(const Arg *arg) {
 
   current_tag += arg->i;
-  current_tag = MAX(current_tag, 0);
-  current_tag = MIN(current_tag, LENGTH(tags) - 1);
-
+  if (cycle_tags) {
+    if (current_tag < 0)
+      current_tag = 8;
+    current_tag %= LENGTH(tags);
+  } else {
+    current_tag = MAX(current_tag, 0);
+    current_tag = MIN(current_tag, LENGTH(tags) - 1);
+  }
   Arg newArg = {.ui = 1 << current_tag};
   view(&newArg);
 }
@@ -1977,7 +1982,7 @@ void view(const Arg *arg) {
   selmon->seltags ^= 1; /* toggle sel tagset */
   if (arg->ui & TAGMASK)
     selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-  current_tag = getShiftView(arg->ui & TAGMASK);
+  current_tag = get_l_shift(arg->ui & TAGMASK);
   focus(NULL);
   arrange(selmon);
 }
