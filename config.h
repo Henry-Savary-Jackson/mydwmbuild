@@ -5,15 +5,15 @@ static const unsigned int borderpx = 1; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
-static const char *fonts[] = {"JetBrainsMonoNerdFont:size=15"};
+static const char *fonts[] = {"JetBrainsMonoNerdFont:size=14"};
 
 static const char dmenufont[] = "JetBrainsMonoNerdFont:size=12";
 
-static const char col_gray1[] = "#666666";
-static const char col_gray2[] = "#111111";
-static const char col_gray3[] = "#111111";
-static const char col_gray4[] = "#111111";
-static const char col_cyan[] = "#2222EE";
+static const char col_gray1[] = "#555555";
+static const char col_gray2[] = "#000000";
+static const char col_gray3[] = "#000000";
+static const char col_gray4[] = "#000000";
+static const char col_cyan[] = "#5555FF";
 static const char col_sel_tab[] = "#444444";
 static const char *colors[][3] = {
     /*               fg         bg         border   */
@@ -23,7 +23,7 @@ static const char *colors[][3] = {
 
 /* tagging */
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-static const int cycle_tags = 1;
+static const int cycle_tags = 0;
 static const Rule rules[] = {
     /* xprop(1):
      *	WM_CLASS(STRING) = instance, class

@@ -294,7 +294,6 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
-static signed int current_tag = 0;
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
@@ -1681,7 +1680,7 @@ void toggletag(const Arg *arg) {
 
 void toggleview(const Arg *arg) {
   unsigned int newtagset =
-      selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
+     selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
 
   if (newtagset) {
     selmon->tagset[selmon->seltags] = newtagset;
@@ -1950,28 +1949,19 @@ void updatewmhints(Client *c) {
     XFree(wmh);
   }
 }
-// this takes a given integer in binary consisting of 1 bit leftshifted by a
-// certain number, and return how much it was left shifted
-static int get_l_shift(int i) {
-  int output = 0;
-  while ((1 << output) != i && output < 32) {
-    output += 1;
-  }
-  return output;
-}
 
 static void moveView(const Arg *arg) {
 
-  current_tag += arg->i;
-  if (cycle_tags) {
-    if (current_tag < 0)
-      current_tag = 8;
-    current_tag %= LENGTH(tags);
-  } else {
-    current_tag = MAX(current_tag, 0);
-    current_tag = MIN(current_tag, LENGTH(tags) - 1);
+  Arg newArg = {.ui = arg->i >= 0 ? selmon->tagset[selmon->seltags] << arg->i :  selmon->tagset[selmon->seltags]  >>abs(arg->i)};
+  if (cycle_tags == 1){
+  
+  if (newArg.ui >= 1 << LENGTH(tags)){
+    newArg.ui >>= LENGTH(tags);
   }
-  Arg newArg = {.ui = 1 << current_tag};
+  else if (newArg.ui == 0){
+    newArg.ui = 1 << (LENGTH(tags)-1) ;
+  }
+  }
   view(&newArg);
 }
 
@@ -1979,10 +1969,9 @@ void view(const Arg *arg) {
   if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
     return;
 
-  selmon->seltags ^= 1; /* toggle sel tagset */
+  //selmon->seltags ^= 1; /* toggle sel tagset */
   if (arg->ui & TAGMASK)
     selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-  current_tag = get_l_shift(arg->ui & TAGMASK);
   focus(NULL);
   arrange(selmon);
 }
