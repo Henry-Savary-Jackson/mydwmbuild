@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx = 1; /* border pixel of windows */
+static const unsigned int borderpx = 2; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
@@ -11,7 +11,7 @@ static const char dmenufont[] = "JetBrainsMonoNerdFont:size=12";
 
 static const char *colors[][3] = {
     /*               fg         bg         border   */
-    [SchemeNorm] = {"#CCCCCC", "#000000", "#771177"},
+    [SchemeNorm] = {"#CCCCCC", "#000000", "#001188"},
     [SchemeSel] = {"#CCCCCC", "#8811BB", "#8811BB"},
 };
 
