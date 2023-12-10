@@ -710,7 +710,8 @@ void drawbar(Monitor *m) {
 
   /* draw status first so it can be overdrawn by tags later */
   if (m == selmon) { /* status is only drawn on selected monitor */
-    drw_setscheme(drw, scheme[m->sel ? SchemeSel : SchemeNorm]);
+    drw_setscheme(drw, scheme[SchemeNorm]);
+    drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
     tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
     drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
   }
@@ -738,8 +739,13 @@ void drawbar(Monitor *m) {
 
   if ((w = m->ww - tw - x) > bh) {
     if (m->sel) {
+      int text_w = TEXTW(m->sel->name);
+      int text_x_start = x + MAX((w - text_w), 0) / 2;
       drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-      drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+      drw_text(drw, text_x_start, 0, MIN(text_w, w), bh, lrpad / 2,
+               m->sel->name, 0);
+      drw_setscheme(drw, scheme[SchemeNorm]);
+      drw_rect(drw, x, 0, MAX(w - text_w, 0) / 2, bh, 1, 1);
       if (m->sel->isfloating)
         drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
     } else {
@@ -1680,7 +1686,7 @@ void toggletag(const Arg *arg) {
 
 void toggleview(const Arg *arg) {
   unsigned int newtagset =
-     selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
+      selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
 
   if (newtagset) {
     selmon->tagset[selmon->seltags] = newtagset;
@@ -1952,15 +1958,16 @@ void updatewmhints(Client *c) {
 
 static void moveView(const Arg *arg) {
 
-  Arg newArg = {.ui = arg->i >= 0 ? selmon->tagset[selmon->seltags] << arg->i :  selmon->tagset[selmon->seltags]  >>abs(arg->i)};
-  if (cycle_tags == 1){
-  
-  if (newArg.ui >= 1 << LENGTH(tags)){
-    newArg.ui >>= LENGTH(tags);
-  }
-  else if (newArg.ui == 0){
-    newArg.ui = 1 << (LENGTH(tags)-1) ;
-  }
+  Arg newArg = {.ui = arg->i >= 0
+                          ? selmon->tagset[selmon->seltags] << arg->i
+                          : selmon->tagset[selmon->seltags] >> abs(arg->i)};
+  if (cycle_tags == 1) {
+
+    if (newArg.ui >= 1 << LENGTH(tags)) {
+      newArg.ui >>= LENGTH(tags);
+    } else if (newArg.ui == 0) {
+      newArg.ui = 1 << (LENGTH(tags) - 1);
+    }
   }
   view(&newArg);
 }
@@ -1969,7 +1976,7 @@ void view(const Arg *arg) {
   if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
     return;
 
-  //selmon->seltags ^= 1; /* toggle sel tagset */
+  // selmon->seltags ^= 1; /* toggle sel tagset */
   if (arg->ui & TAGMASK)
     selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
   focus(NULL);

@@ -5,7 +5,7 @@ static const unsigned int borderpx = 2; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
-static const char *fonts[] = {"JetBrainsMonoNerdFont:size=14"};
+static const char *fonts[] = {"JetBrainsMonoNerdFont:size=12"};
 
 static const char dmenufont[] = "JetBrainsMonoNerdFont:size=12";
 
@@ -17,7 +17,7 @@ static const char *colors[][3] = {
 
 /* tagging */
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-static const int cycle_tags = 0;
+static const int cycle_tags = 1;
 static const Rule rules[] = {
     /* xprop(1):
      *	WM_CLASS(STRING) = instance, class
@@ -36,13 +36,13 @@ static const int resizehints =
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
-static const Layout layouts[] = {
+static const Layout layouts[3] = {
+
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
     {"[M]", monocle},
 };
-
 /* key definitions */
 #define MODKEY Mod1Mask
 #define TAGKEYS(KEY, TAG)                                                      \
@@ -68,6 +68,8 @@ static const char *nvimcmd[] = {"st", "nvim", NULL};
 static const char *rangercmd[] = {"st", "ranger", NULL};
 static const char *firefoxcmd[] = {"firefox", NULL};
 static const char *torcmd[] = {"torbrowser-launcher", NULL};
+static const char *lockcmd[] = {"lock", NULL};
+static const char *htopcmd[] = {"st", "htop", NULL};
 static const Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
@@ -97,6 +99,8 @@ static const Key keys[] = {
     {MODKEY, XK_n, spawn, {.v = nvimcmd}},
     {MODKEY | ShiftMask, XK_f, spawn, {.v = firefoxcmd}},
     {MODKEY | ShiftMask, XK_t, spawn, {.v = torcmd}},
+    {MODKEY | ShiftMask, XK_l, spawn, {.v = lockcmd}},
+    {MODKEY | ShiftMask, XK_h, spawn, {.v = htopcmd}},
     {MODKEY, XK_Left, moveView, {.i = -1}},
     {MODKEY, XK_Right, moveView, {.i = 1}},
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
