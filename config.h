@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx = 2; /* border pixel of windows */
+static const unsigned int borderpx = 5; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
@@ -63,17 +63,9 @@ static char dmenumon[2] =
 static const char *dmenucmd[] = {
     "dmenu_run", "-m",  dmenumon,  "-fn", dmenufont, "-nb", "#000000", "-nf",
     "#CCCCCC",   "-sb", "#8811BB", "-sf", "#CCCCCC", NULL};
-static const char *termcmd[] = {"st", NULL};
-static const char *nvimcmd[] = {"st", "nvim", NULL};
-static const char *rangercmd[] = {"st", "ranger", NULL};
-static const char *firefoxcmd[] = {"firefox", NULL};
-static const char *torcmd[] = {"torbrowser-launcher", NULL};
-static const char *lockcmd[] = {"lock", NULL};
-static const char *htopcmd[] = {"st", "htop", NULL};
 static const Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},
     {MODKEY, XK_k, focusstack, {.i = -1}},
@@ -95,12 +87,6 @@ static const Key keys[] = {
     {MODKEY, XK_period, focusmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
-    {MODKEY, XK_r, spawn, {.v = rangercmd}},
-    {MODKEY, XK_n, spawn, {.v = nvimcmd}},
-    {MODKEY | ShiftMask, XK_f, spawn, {.v = firefoxcmd}},
-    {MODKEY | ShiftMask, XK_t, spawn, {.v = torcmd}},
-    {MODKEY | ShiftMask, XK_l, spawn, {.v = lockcmd}},
-    {MODKEY | ShiftMask, XK_h, spawn, {.v = htopcmd}},
     {MODKEY, XK_Left, moveView, {.i = -1}},
     {MODKEY, XK_Right, moveView, {.i = 1}},
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
@@ -116,7 +102,6 @@ static const Button buttons[] = {
     {ClkLtSymbol, 0, Button1, setlayout, {0}},
     {ClkLtSymbol, 0, Button3, setlayout, {.v = &layouts[2]}},
     {ClkWinTitle, 0, Button2, zoom, {0}},
-    {ClkStatusText, 0, Button2, spawn, {.v = termcmd}},
     {ClkClientWin, MODKEY, Button1, movemouse, {0}},
     {ClkClientWin, MODKEY, Button2, togglefloating, {0}},
     {ClkClientWin, MODKEY, Button3, resizemouse, {0}},
