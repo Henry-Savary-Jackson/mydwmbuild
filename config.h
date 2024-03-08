@@ -60,12 +60,11 @@ static const Layout layouts[3] = {
 /* commands */
 static char dmenumon[2] =
     "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {
-    "dmenu_run", "-m",  dmenumon,  "-fn", dmenufont, "-nb", "#000000", "-nf",
-    "#CCCCCC",   "-sb", "#8811BB", "-sf", "#CCCCCC", NULL};
+static const char *roficmd[] = {"rofi",    "-show",       "drun", "-icon-theme",
+                                "Paprius", "-show-icons", NULL};
 static const Key keys[] = {
     /* modifier                     key        function        argument */
-    {MODKEY, XK_p, spawn, {.v = dmenucmd}},
+    {MODKEY, XK_p, spawn, {.v = roficmd}},
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},
     {MODKEY, XK_k, focusstack, {.i = -1}},
